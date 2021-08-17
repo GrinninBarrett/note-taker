@@ -1,4 +1,4 @@
-# 👩‍💻 Team Profile Generator
+# ✏️ Note Taker
 
 This web application uses Express.js to allow users to take notes and save them to a database (JSON file in this case). Users will be able to retrieve previously saved notes by clicking their title in the menu.
 
