@@ -1,26 +1,32 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const uuid = require('uuid');
-const notesData = require('./db/db.json');
+const notes = require('./db/db.json');
+
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Set public folder
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/index.html'));
-});
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'index.html'));
+// });
 
 app.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
-    res.sendFile(path.join(__dirname, './public/notes.html'));
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
+app.get('/api/notes', (req, res) => {
+    return res.json(notes);
 });
 
 
@@ -33,9 +39,27 @@ app.post('/notes', (req, res) => {
     if (title && text) {
         const newNote = {
             title,
-            text,
-            note_id: uuid()
+            text
         };
+
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                const parsedNotes = JSON.parse(data);
+
+                parsedNotes.push(newNote);
+
+                fs.writeFile(
+                    './db/db.json',
+                    JSON.stringify(parsedNotes, null, 4),
+                    (writeErr) => 
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('Successfully added note!')
+                );
+            }
+        });
 
         const response = {
             status: 'success',
@@ -43,15 +67,12 @@ app.post('/notes', (req, res) => {
         };
 
         console.log(response);
-        response.json(response);
+        res.json(response);
         
     } else {
         res.json('Error in adding note');
     }
-
-
 });
-
 
 
 
