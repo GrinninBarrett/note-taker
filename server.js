@@ -20,11 +20,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     res.sendFile(path.join(__dirname, 'index.html'));
 // });
 
+
+// This is used to show the notes.html file when the button on the landing page is clicked
 app.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
+// This is used for actually adding new notes to the db.json file
 app.get('/api/notes', (req, res) => {
     return res.json(notes);
 });
@@ -40,6 +43,7 @@ app.post('/notes', (req, res) => {
         const newNote = {
             title,
             text
+            //TODO: Add id to new notes using uuid
         };
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
