@@ -1,7 +1,9 @@
+
 # ✏️ Note Taker
 
 This web application uses Express.js to allow users to take notes and save them to a database (JSON file in this case). Users will be able to retrieve previously saved notes by clicking their title in the menu.
 
+---
 
 ## Table of Contents
   * [Technologies](#technologies)
@@ -29,11 +31,11 @@ This web application uses Express.js to allow users to take notes and save them 
  -->
 
 ## Challenges
-<!-- TODO: Update this with challenges as they arise -->
+- Of course, one of the big challenges here was to set up the routes correctly. Specifically, I first had some confusion as to whether I should use `/notes` or `/api/notes` for the requests. It turned out that using `/notes` worked for accessing the notes.html file, while `/api/notes` worked for actually dealing with the data.
 
 
 ## Future Development
-<!-- TODO: Update this with challenges as they arise -->
+- It would be nice to eventually add the ability for a user to edit a previously saved note, which would probably be done using a `put` request.
 
 
 ## Contact
