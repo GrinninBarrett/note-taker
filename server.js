@@ -8,7 +8,6 @@ const uuid = require('uuid');
 
 // Import notes "database" from db.json
 const notes = require('./db/db.json');
-const { parse } = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -82,7 +81,7 @@ app.post('/api/notes', (req, res) => {
         });
 
         const response = {
-            status: 'success',
+            status: 'Success',
             body: newNote
         };
 
@@ -93,6 +92,44 @@ app.post('/api/notes', (req, res) => {
         res.json('Please be sure your note has a title and text in the note body.');
     }
 });
+
+
+// Delete a particular note when called (from clicking the trash icon on a note)
+app.delete('/api/notes/:id', (req, res) => {
+
+    console.info(`${req.method} request received to delete a note`);
+
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const parsedNotes = JSON.parse(data);
+            const noteToDelete = parsedNotes.filter(note => note.id === req.params.id)[0];
+
+            // Filter to remove deleted note
+            const newNotes = parsedNotes.filter(note => note.id !== req.params.id);
+
+            // Write file to update "database" with new list of notes
+            fs.writeFile(
+                './db/db.json',
+                JSON.stringify(newNotes, null, 4),
+                (writeErr) => 
+                    writeErr
+                        ? console.error(writeErr)
+                        : console.info('Successfully deleted note!')
+            );
+
+            const response = {
+                status: "Success",
+                msg: "Note deleted",
+                body: noteToDelete
+            }
+
+            console.log(response);
+            res.json(response);
+        }
+    });
+})
 
 
 
