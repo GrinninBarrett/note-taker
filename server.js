@@ -1,7 +1,12 @@
+// Import Express, path, fs
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+
+// Import uuid for creating unique IDs for each note
 const uuid = require('uuid');
+
+// Import notes "database" from db.json
 const notes = require('./db/db.json');
 
 const PORT = process.env.PORT || 3001;
@@ -42,8 +47,8 @@ app.post('/notes', (req, res) => {
     if (title && text) {
         const newNote = {
             title,
-            text
-            //TODO: Add id to new notes using uuid
+            text,
+            note_id: uuid.v4()
         };
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -74,7 +79,7 @@ app.post('/notes', (req, res) => {
         res.json(response);
         
     } else {
-        res.json('Error in adding note');
+        res.json('Please be sure your note has a title and text in the note body.');
     }
 });
 

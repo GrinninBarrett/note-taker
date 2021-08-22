@@ -2,5 +2,15 @@
     {
         "title": "Test Title",
         "text": "Test text"
+    },
+    {
+        "title": "Note 1",
+        "text": "Yes, I am adding another note.",
+        "note_id": "5917e8a3-091d-4384-87a6-8e09aff18028"
+    },
+    {
+        "title": "Note 2",
+        "text": "What if I added another note?",
+        "note_id": "db950976-1c39-49aa-bab9-42476d75f825"
     }
 ]
