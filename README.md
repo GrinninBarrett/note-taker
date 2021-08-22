@@ -5,19 +5,23 @@ This web application uses Express.js to allow users to take notes and save them 
 
 ---
 
+## Link to Deployed Application:
+[Note Taker](https://arcane-reaches-81145.herokuapp.com/)
+
 ## Table of Contents
-  * [Technologies](#technologies)
-  * [Functionality](#functionality)
-  * [Challenges](#challenges)
-  * [Future Development](#future-development)
-  * [Contact](#contact)
-  * [License](#license)
+* [Technologies](#technologies)
+* [Functionality](#functionality)
+* [Challenges](#challenges)
+* [Future Development](#future-development)
+* [Contact](#contact)
+* [License](#license)
 
 
 ## Technologies
 * JavaScript
 * Node.js
 * Express.js
+* Heroku
 
 
 ## Functionality
