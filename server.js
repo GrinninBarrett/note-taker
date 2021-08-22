@@ -3,8 +3,12 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
+// Import uuid for creating unique IDs for each note
+const uuid = require('uuid');
+
 // Import notes "database" from db.json
 const notes = require('./db/db.json');
+const { parse } = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -29,24 +33,34 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
-// This is used for actually adding new notes to the db.json file
+
+// Get and parse JSON data from db.json
 app.get('/api/notes', (req, res) => {
-    return res.json(notes);
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const parsedNotes = JSON.parse(data);
+
+            return res.json(parsedNotes);
+        }
+    });
 });
 
 
+// Add a new note to db.json from POST request
 app.post('/api/notes', (req, res) => {
 
     console.info(`${req.method} request received to add a note`);
     
-    const { title, text, id } = req.body;
+    const { title, text } = req.body;
 
-    if (title && text && id) {
-        // const newNote = {
-        //     title,
-        //     text,
-        //     id: uuid.v4()
-        // };
+    if (title && text) {
+        const newNote = {
+            title,
+            text,
+            id: uuid.v4()
+        };
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if (err) {
@@ -54,7 +68,7 @@ app.post('/api/notes', (req, res) => {
             } else {
                 const parsedNotes = JSON.parse(data);
 
-                parsedNotes.push(req.body);
+                parsedNotes.push(newNote);
 
                 fs.writeFile(
                     './db/db.json',
@@ -69,7 +83,7 @@ app.post('/api/notes', (req, res) => {
 
         const response = {
             status: 'success',
-            body: req.body
+            body: newNote
         };
 
         console.log(response);
