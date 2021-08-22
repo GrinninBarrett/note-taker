@@ -3,9 +3,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-// Import uuid for creating unique IDs for each note
-const uuid = require('uuid');
-
 // Import notes "database" from db.json
 const notes = require('./db/db.json');
 
@@ -38,18 +35,18 @@ app.get('/api/notes', (req, res) => {
 });
 
 
-app.post('/notes', (req, res) => {
+app.post('/api/notes', (req, res) => {
 
     console.info(`${req.method} request received to add a note`);
     
-    const { title, text } = req.body;
+    const { title, text, id } = req.body;
 
-    if (title && text) {
-        const newNote = {
-            title,
-            text,
-            note_id: uuid.v4()
-        };
+    if (title && text && id) {
+        // const newNote = {
+        //     title,
+        //     text,
+        //     id: uuid.v4()
+        // };
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if (err) {
@@ -57,7 +54,7 @@ app.post('/notes', (req, res) => {
             } else {
                 const parsedNotes = JSON.parse(data);
 
-                parsedNotes.push(newNote);
+                parsedNotes.push(req.body);
 
                 fs.writeFile(
                     './db/db.json',
@@ -72,7 +69,7 @@ app.post('/notes', (req, res) => {
 
         const response = {
             status: 'success',
-            body: newNote
+            body: req.body
         };
 
         console.log(response);

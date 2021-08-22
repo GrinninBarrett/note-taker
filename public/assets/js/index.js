@@ -1,3 +1,6 @@
+// Import uuid for creating unique IDs for each note
+const uuid = require('uuid');
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -31,7 +34,7 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json',
     },
-});
+  });
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -70,6 +73,7 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: uuid.v4()
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
