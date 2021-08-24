@@ -6,9 +6,6 @@ const fs = require('fs');
 // Import uuid for creating unique IDs for each note
 const uuid = require('uuid');
 
-// Import notes "database" from db.json
-const notes = require('./db/db.json');
-
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -19,11 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Set public folder
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'index.html'));
-// });
 
 
 // This is used to show the notes.html file when the button on the landing page is clicked
@@ -80,13 +72,13 @@ app.post('/api/notes', (req, res) => {
             }
         });
 
-        const response = {
+        const successData = {
             status: 'Success',
             body: newNote
         };
 
-        console.log(response);
-        res.json(response);
+        console.log(successData);
+        res.json(successData);
         
     } else {
         res.json('Please be sure your note has a title and text in the note body.');
@@ -119,14 +111,14 @@ app.delete('/api/notes/:id', (req, res) => {
                         : console.info('Successfully deleted note!')
             );
 
-            const response = {
+            const successData = {
                 status: "Success",
                 msg: "Note deleted",
                 body: noteToDelete
             }
 
-            console.log(response);
-            res.json(response);
+            console.log(successData);
+            res.json(successData);
         }
     });
 })
